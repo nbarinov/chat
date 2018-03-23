@@ -5,6 +5,7 @@ module.exports = {
     output: {
         path: __dirname + '/dist/assets',
         filename: 'bundle.js',
+        publicPath: 'assets',
         sourceMapFilename: 'bundle.map',
     },
     devtool: '#source-map',
@@ -13,7 +14,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /(node_modules)/,
-                loader: ['babel-loader'],
+                loader: 'babel-loader',
                 query: {
                     presets: ['env', 'stage-0', 'react']
                 }

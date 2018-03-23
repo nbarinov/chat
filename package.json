@@ -4,7 +4,10 @@
   "description": "Chat app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --progress",
+    "prestart": "npm run build",
+    "start": "babel-node source/server",
+    "lint": "./node_modules/.bin/eslint .; exit 0"
   },
   "repository": {
     "type": "git",
@@ -28,9 +31,15 @@
     "style-loader": "^0.20.3"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "express": "^4.16.3",
+    "npm": "^5.7.1",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "webpack": "^4.1.1"
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.0.4",
+    "uuid": "^3.2.1",
+    "webpack": "^3.11.0"
   }
 }
