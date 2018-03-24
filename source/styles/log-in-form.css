@@ -1,0 +1,9 @@
+.log-in-form {
+    display: flex;
+    justify-content: space-between;
+    max-width: 360px;
+}
+
+.log-in-form__input {
+    width: calc(95% - 50px);
+}

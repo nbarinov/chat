@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 
+import '../styles/ui/input.css';
+import '../styles/ui/button.css';
 import '../styles/add-message-form.css';
 
 const AddMessageForm = ({ className, onSend = f => f }) => {
@@ -16,12 +18,12 @@ const AddMessageForm = ({ className, onSend = f => f }) => {
     return (
         <form className={(className) ? className + ' add-message-form' : 'add-message-form'} onSubmit={send}>
             <input ref={input => _message = input}
-                className="add-message-form__input"
+                className="add-message-form__input input"
                 type="text"
                 placeholder="Your message..."
                 autoComplete="off"
                 required />
-            <button className="add-message-form__button">Send</button>
+            <button className="add-message-form__button button">Send</button>
         </form>
     );
 };

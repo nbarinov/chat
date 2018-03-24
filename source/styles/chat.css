@@ -9,7 +9,7 @@
 
     height: calc(100vh - 40px);
     padding-top: 14px;
-    padding-bottom: 24px;
+    padding-bottom: 12px;
     padding-left: 0;
 
     overflow-y: scroll;
@@ -30,14 +30,24 @@
 
 .chat__message--me {
     color: #37b24d;
+    font-weight: 700;
 }
 
 .chat__message--friend {
     color: #f03e3e;
+    font-weight: 700;
 }
 
 .chat__add-message-form {
-    position: fixed;
-    bottom: 4px;
-    left: 0;
+    max-width: 480px;
+}
+
+@media (min-height: 650px) {
+    .chat {
+        height: 80vh;
+    }
+
+    .chat__messages {
+        height: calc(80vh - 40px);
+    }
 }

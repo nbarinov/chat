@@ -1,11 +1,7 @@
 * {
-    box-sizing: border-box;
-}
-
-html,
-body {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -28,4 +24,16 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+@media (min-width: 525px) {
+    .app {
+        margin: 45px 0 0 45px;
+    }
+}
+
+@media (min-height: 650px) {
+    .app {
+        height: 80vh;
+    }
 }
