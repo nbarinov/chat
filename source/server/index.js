@@ -38,12 +38,14 @@ io.on('connection', socket => {
         console.log('\n');
     } else {
         console.log('User ID is already connected, kicking.');
+        // io.emit('disconnect');
         socket.disconnect();
     }
 
     socket.on('disconnect', () => {
         users = removeUser(users, currentUser.id);
         console.log(`User ${currentUser.username} disconnected`);
+        socket.broadcast.emit('user disconnect', currentUser.username);
     });
 
     socket.on('message', data => {

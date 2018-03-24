@@ -53,6 +53,22 @@ class Chat extends Component {
                 ]
             }));
         });
+        
+        this.socket.on('user disconnect', username => {
+            console.log('[CLIENT] user disconnected');
+
+            this.setState(prevState => ({
+                messages: [
+                    ...prevState.messages,
+                    {
+                        id: v4(),
+                        username: null,
+                        message: `${username} disconnect`,
+                        time: new Date().toString()
+                    }
+                ]
+            }));
+        })
     }
 
     componentDidUpdate() {
