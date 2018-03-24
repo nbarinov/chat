@@ -1,35 +1,95 @@
+import { Component } from 'react';
+import io from 'socket.io-client';
+import { v4 } from 'uuid';
 import PropTypes from 'prop-types';
 
-const Chat = ({ messages = [], onSend = f => f }) => {
-    let _message;
+import AddMessageForm from './AddMessageFrom';
 
-    const send = (e) => {
-        e.preventDefault();
+import '../styles/chat.css';
 
-        onSend(_message.value);
+class Chat extends Component {
+    constructor(props) {
+        super(props);
 
-        _message.value = '';
-    };
+        this.state = {
+            messages: [],
+        };
 
-    return (
-        <div className="chat">
-            {messages.length === 0 ?
-                'no message' :
-                messages.map(item => 
-                    <li key={item.id}>{(!!item.username ? <b>{item.username}: </b> : '')}{item.message}</li>
-                )}
-            <form className="chat__add-message-form" onSubmit={send}>
-                <input ref={input => _message = input}
-                    type="text"
-                    autoComplete="off"
-                    required />
-                <button>Send</button>
-            </form>
-        </div>
-    );
-};
+        this.onSend = this.onSend.bind(this);
+        this.chat = null;
+    }
+
+    componentWillMount() {
+        this.socket = io({ query: `username=${this.props.username}` });
+
+        this.socket.on('user join', username => {
+            console.log('[CLIENT] user joined');
+
+            this.setState(prevState => ({
+                messages: [
+                    ...prevState.messages,
+                    {
+                        id: v4(),
+                        username: null,
+                        message: `${username} joined`,
+                        time: new Date().toString()
+                    }
+                ]
+            }));
+        });
+
+        this.socket.on('message', data => {
+            console.log('[CLIENT] new message');
+
+            this.setState(prevState => ({
+                messages: [
+                    ...prevState.messages,
+                    {
+                        id: v4(),
+                        username: data.username,
+                        message: data.message,
+                        time: new Date().toString()
+                    }
+                ]
+            }));
+        });
+    }
+
+    componentDidUpdate() {
+        this.chat.lastChild.scrollIntoView({ block: 'end', behavior: 'smooth' });
+    }
+
+    onSend(message) {
+        this.socket.emit('message', { username: this.props.username, message });
+    }
+
+    render() {
+        const { className, username } = this.props;
+        const { messages } = this.state;
+
+        return (
+            <div className={(className) ? className + ' chat' : 'chat'}>
+                <ul className="chat__messages" ref={el => this.chat = el}>
+                    {messages.length === 0 ?
+                        'no message' :
+                        messages.map(item =>
+                            <li key={item.id} className={(!!item.username) ? 'chat__message' : 'chat__message chat__message--system'}>
+                                {(!!item.username ?
+                                    <b className={(username === item.username) ?
+                                        'chat__message--me' :
+                                        'chat__message--friend'}>{item.username}: </b> : '')}{item.message}
+                            </li>
+                        )}
+                </ul>
+                <AddMessageForm className="chat__add-message-form" onSend={this.onSend} />
+            </div>
+        );
+    }
+}
 
 Chat.propTypes = {
+    className: PropTypes.string,
+    username: PropTypes.string,
     message: PropTypes.array,
     onSend: PropTypes.func,
 };

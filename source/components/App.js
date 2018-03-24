@@ -1,8 +1,9 @@
 import { Component } from 'react';
 
 import LogInForm from './LogInForm';
-import ChatHOC from '../HOC/ChatHOC';
-import ChatComponent from './Chat';
+import Chat from './Chat';
+
+import '../styles/app.css';
 
 class App extends Component {
     constructor(props) {
@@ -10,24 +11,25 @@ class App extends Component {
 
         this.state = {
             auth: false,
+            username: null
         };
 
         this.onLogIn = this.onLogIn.bind(this);
     }
 
     onLogIn(username) {
-        this.Chat = ChatHOC(ChatComponent, username);
-        this.setState({auth: true});
+        this.setState({
+            auth: true,
+            username
+        });
     }
 
     render() {
-        const Chat = this.Chat;
-
         return (
             <div className="app">
                 {this.state.auth ?
-                    <Chat /> :
-                    <LogInForm onLogIn={this.onLogIn} />}
+                    <Chat className="app__chat" username={this.state.username} /> :
+                    <LogInForm className="app__log-in-form" onLogIn={this.onLogIn} />}
             </div>
         );
     }

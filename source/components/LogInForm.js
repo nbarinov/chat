@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const LogInForm = ({ onLogIn = f => f }) => {
+const LogInForm = ({ className, onLogIn = f => f }) => {
     let _username;
 
     const submit = e => {
@@ -11,7 +11,7 @@ const LogInForm = ({ onLogIn = f => f }) => {
     };
 
     return (
-        <form className="log-in-form" onSubmit={submit}>
+        <form className={(className) ? className + ' log-in-form' : 'log-in-form'} onSubmit={submit}>
             <input ref={input => _username = input}
                 type="text"
                 placeholder="Your Username"
@@ -22,6 +22,7 @@ const LogInForm = ({ onLogIn = f => f }) => {
 };
 
 LogInForm.propTypes = {
+    className: PropTypes.string,
     onLogIn: PropTypes.func,
 };
 
