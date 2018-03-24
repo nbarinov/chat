@@ -1,0 +1,30 @@
+.button {
+    display: inline-block;
+
+    padding: 2px 6px;
+    margin-bottom: 0;
+
+    border-width: 1px;
+    border-style: solid;
+    border-color: #c2c0c2 #c2c0c2 #a19fa1;
+    border-radius: 4px;
+
+    background-color: #fcfcfc;
+    background-image: linear-gradient(to bottom, #fcfcfc 0, #f1f1f1 100%);
+    
+    font-size: 12px;
+    line-height: 1.4;
+    color: #333;
+    white-space: nowrap;
+    
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .06)
+}
+
+.button--primary {
+    border-color: #388df8 #388df8 #0866dc;
+    background-color: #6eb4f7;
+    background-image: linear-gradient(to bottom, #6eb4f7 0, #1a82fb 100%);
+
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+}
