@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
 
-    height: calc(100vh - 40px);
+    height: calc(100vh - 64px);
     padding-top: 14px;
     padding-bottom: 12px;
     padding-left: 0;
@@ -36,6 +36,13 @@
 .chat__message--friend {
     color: #f03e3e;
     font-weight: 700;
+}
+
+.chat__status {
+    height: 24px;
+
+    font-size: 11px;
+    color: #ced4da;
 }
 
 .chat__add-message-form {

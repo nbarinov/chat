@@ -3,9 +3,21 @@ import PropTypes from 'prop-types';
 import '../styles/ui/input.css';
 import '../styles/ui/button.css';
 import '../styles/add-message-form.css';
+import { setTimeout } from 'timers';
 
-const AddMessageForm = ({ className, onSend = f => f }) => {
+const AddMessageForm = ({ className, onChange = f => f, onSend = f => f }) => {
     let _message;
+    let isTyping = false;
+
+    const change = () => {
+        if(!isTyping) {
+            isTyping = true;
+            
+            onChange();
+
+            setTimeout(() => isTyping = false, 3000);
+        }
+    };
 
     const send = (e) => {
         e.preventDefault();
@@ -13,6 +25,7 @@ const AddMessageForm = ({ className, onSend = f => f }) => {
         onSend(_message.value);
 
         _message.value = '';
+        isTyping = false;
     };
 
     return (
@@ -22,6 +35,7 @@ const AddMessageForm = ({ className, onSend = f => f }) => {
                 type="text"
                 placeholder="Your message..."
                 autoComplete="off"
+                onChange={change}
                 required />
             <button className="add-message-form__button button">Send</button>
         </form>
@@ -30,6 +44,7 @@ const AddMessageForm = ({ className, onSend = f => f }) => {
 
 AddMessageForm.propTypes = {
     className: PropTypes.string,
+    onChange: PropTypes.func,
     onSend: PropTypes.func,
 };
 

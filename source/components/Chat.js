@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 
 import AddMessageForm from './AddMessageFrom';
 
+import { filterByName } from '../libs/utils';
+
 import '../styles/chat.css';
 
 class Chat extends Component {
@@ -13,9 +15,11 @@ class Chat extends Component {
 
         this.state = {
             messages: [],
+            status: '',
         };
 
         this.onSend = this.onSend.bind(this);
+        this.onChange = this.onChange.bind(this);
         this.chat = null;
     }
 
@@ -53,6 +57,28 @@ class Chat extends Component {
                 ]
             }));
         });
+
+        this.socket.on('user is typing', users => {
+            users = filterByName(users, this.props.username);
+
+            if(users.length > 0) {
+                let status = '';
+                
+                if(users.length <= 3) {
+                    users.map(({username}) => status += `${username}, `);
+
+                    status = `${status.substr(0, status.length - 2)} is typing...`;
+                }
+
+                if(users.length > 3) {
+                    status = `${users[0].username}, ${users[1].username}, ${users[2].username}, ${users[3].username}`;
+                    status += ` and ${users.length - 4} users is typing...`;
+                }
+
+                setTimeout(() => this.setState({status: ''}), 3000);
+                this.setState({status});
+            }
+        });
         
         this.socket.on('user disconnect', username => {
             console.log('[CLIENT] user disconnected');
@@ -71,8 +97,18 @@ class Chat extends Component {
         });
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        const { messages, status } = this.state;
+        
+        return nextState.messages.length !== messages.length || nextState.status !== status;
+    }
+
     componentDidUpdate() {
         this.chat.lastChild.scrollIntoView({ block: 'end', behavior: 'smooth' });
+    }
+
+    onChange() {
+        this.socket.emit('user is typing', this.props.username);
     }
 
     onSend(message) {
@@ -81,7 +117,7 @@ class Chat extends Component {
 
     render() {
         const { className, username } = this.props;
-        const { messages } = this.state;
+        const { messages, status } = this.state;
 
         return (
             <div className={(className) ? className + ' chat' : 'chat'}>
@@ -97,7 +133,8 @@ class Chat extends Component {
                             </li>
                         )}
                 </ul>
-                <AddMessageForm className="chat__add-message-form" onSend={this.onSend} />
+                <div className="chat__status">{status}</div>
+                <AddMessageForm className="chat__add-message-form" onChange={this.onChange} onSend={this.onSend} />
             </div>
         );
     }

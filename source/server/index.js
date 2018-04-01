@@ -2,7 +2,7 @@ import express from 'express';
 import http from 'http';
 import path from 'path';
 import SocketIO from 'socket.io';
-import { findUser, addUser, removeUser } from '../libs/utils';
+import { findUser, findUserByName, addUser, removeUser } from '../libs/utils';
 
 const app = express();
 const server = http.Server(app);
@@ -12,6 +12,7 @@ const files = express['static'](path.join(__dirname, '../../dist'));
 
 let users = [];
 let sockets = {};
+let usersTyping = [];
 
 app.use(files);
 
@@ -38,7 +39,6 @@ io.on('connection', socket => {
         console.log('\n');
     } else {
         console.log('User ID is already connected, kicking.');
-        // io.emit('disconnect');
         socket.disconnect();
     }
 
@@ -51,6 +51,16 @@ io.on('connection', socket => {
     socket.on('message', data => {
         console.log('[SERVER] new message');
         io.emit('message', data);
+    });
+
+    socket.on('user is typing', username => {
+        if(!findUserByName(usersTyping, username)) {
+            usersTyping = addUser(usersTyping, findUserByName(users, username));
+
+            setTimeout(() => usersTyping = removeUser(usersTyping, findUserByName(usersTyping, username).id), 3000);
+        }
+
+        io.emit('user is typing', usersTyping);
     });
 });
 
