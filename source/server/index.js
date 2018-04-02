@@ -53,16 +53,7 @@ io.on('connection', socket => {
         io.emit('message', data);
     });
 
-    // socket.on('user is typing', username => {
-    //     if(!findUserByName(usersTyping, username)) {
-    //         usersTyping = addUser(usersTyping, findUserByName(users, username));
-
-    //         setTimeout(() => usersTyping = removeUser(usersTyping, findUserByName(usersTyping, username).id), 3000);
-    //     }
-
-    //     io.emit('user is typing', usersTyping);
-    // });
-    socket.on('user start typing', username => {
+    socket.on('user started typing', username => {
         if(!findUserByName(usersTyping, username)) {
             usersTyping = addUser(usersTyping, findUserByName(users, username));
             console.log(usersTyping);
@@ -72,7 +63,7 @@ io.on('connection', socket => {
         }
     });
 
-    socket.on('user end typing', username => {
+    socket.on('user ended typing', username => {
         if(findUserByName(usersTyping, username)) {
             usersTyping = removeUser(usersTyping, findUserByName(users, username).id);
             console.log(usersTyping);

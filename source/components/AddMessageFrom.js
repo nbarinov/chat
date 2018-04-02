@@ -12,7 +12,6 @@ const AddMessageForm = ({ className, onFocus = f => f, onBlur = f => f, onSend =
     let timerId = null;
 
     const focus = () => {
-        console.log('вызвался');
         setTimeout(() => {
             timerId = setInterval(() => {
                 if (messageLenght === _message.value.length) {
@@ -37,29 +36,13 @@ const AddMessageForm = ({ className, onFocus = f => f, onBlur = f => f, onSend =
         clearInterval(timerId);
     };
 
-    // const change = () => {
-    //     if(!isTyping) {
-    //         isTyping = true;
-            
-    //         onChange();
-
-    //         setTimeout(() => isTyping = false, 3000);
-    //     }
-    // };
-
     const send = (e) => {
         e.preventDefault();
 
-        console.log(timerId);
-
         onSend(_message.value);
 
-        onBlur();
+        _message.blur();
         _message.value = '';
-        messageLenght = 0;
-        isTyping = false;
-        clearInterval(timerId);
-        _message.focus();
     };
 
     return (
@@ -79,7 +62,8 @@ const AddMessageForm = ({ className, onFocus = f => f, onBlur = f => f, onSend =
 
 AddMessageForm.propTypes = {
     className: PropTypes.string,
-    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
     onSend: PropTypes.func,
 };
 

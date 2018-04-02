@@ -77,7 +77,6 @@ class Chat extends Component {
                     status += ` and ${users.length - 4} users is typing...`;
                 }
 
-                // setTimeout(() => this.setState({status: ''}), 3000);
                 return this.setState({status});
             }
 
@@ -111,16 +110,12 @@ class Chat extends Component {
         this.chat.lastChild.scrollIntoView({ block: 'end', behavior: 'smooth' });
     }
 
-    // onChange() {
-    //     this.socket.emit('user is typing', this.props.username);
-    // }
-
     onFocus() {
-        this.socket.emit('user start typing', this.props.username);
+        this.socket.emit('user started typing', this.props.username);
     }
 
     onBlur() {
-        this.socket.emit('user end typing', this.props.username);
+        this.socket.emit('user ended typing', this.props.username);
     }
 
     onSend(message) {
