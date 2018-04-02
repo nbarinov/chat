@@ -19,7 +19,9 @@ class Chat extends Component {
         };
 
         this.onSend = this.onSend.bind(this);
-        this.onChange = this.onChange.bind(this);
+        // this.onChange = this.onChange.bind(this);
+        this.onFocus = this.onFocus.bind(this);
+        this.onBlur = this.onBlur.bind(this);
         this.chat = null;
     }
 
@@ -75,9 +77,11 @@ class Chat extends Component {
                     status += ` and ${users.length - 4} users is typing...`;
                 }
 
-                setTimeout(() => this.setState({status: ''}), 3000);
-                this.setState({status});
+                // setTimeout(() => this.setState({status: ''}), 3000);
+                return this.setState({status});
             }
+
+            this.setState({status: ''});
         });
         
         this.socket.on('user disconnect', username => {
@@ -107,8 +111,16 @@ class Chat extends Component {
         this.chat.lastChild.scrollIntoView({ block: 'end', behavior: 'smooth' });
     }
 
-    onChange() {
-        this.socket.emit('user is typing', this.props.username);
+    // onChange() {
+    //     this.socket.emit('user is typing', this.props.username);
+    // }
+
+    onFocus() {
+        this.socket.emit('user start typing', this.props.username);
+    }
+
+    onBlur() {
+        this.socket.emit('user end typing', this.props.username);
     }
 
     onSend(message) {
@@ -134,7 +146,7 @@ class Chat extends Component {
                         )}
                 </ul>
                 <div className="chat__status">{status}</div>
-                <AddMessageForm className="chat__add-message-form" onChange={this.onChange} onSend={this.onSend} />
+                <AddMessageForm className="chat__add-message-form" onFocus={this.onFocus} onBlur={this.onBlur} onSend={this.onSend} />
             </div>
         );
     }
