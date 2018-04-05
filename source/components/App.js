@@ -56,8 +56,12 @@ class App extends Component {
     }
 
     render() {
+        const style = {
+            height: (window.innerWidth < 525) ? window.innerHeight : '',
+        };
+
         return (
-            <div className="app">
+            <div className="app" style={style}>
                 {this.state.auth ?
                     <Chat className="app__chat" username={this.state.username} /> :
                     <LogInForm className="app__log-in-form" onLogIn={this.onLogIn} error={this.state.error || ''} />}

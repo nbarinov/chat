@@ -15,6 +15,9 @@ body {
     margin: 0 auto;
 
     height: 100vh;
+
+    padding-right: 5px;
+    padding-left: 5px;
 }
 
 .app__chat {}
@@ -29,6 +32,8 @@ body {
 @media (min-width: 525px) {
     .app {
         margin: 45px 0 0 45px;
+        padding-right: 0;
+        padding-left: 0;
     }
 }
 

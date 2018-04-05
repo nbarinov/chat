@@ -1,13 +1,13 @@
 .chat {
     width: 100%;
-    height: 100vh;
+    height: 80vh;
 }
 
 .chat__messages {
     display: flex;
     flex-direction: column;
 
-    height: calc(100vh - 64px);
+    height: calc(80vh - 64px);
     padding-top: 14px;
     padding-bottom: 12px;
     padding-left: 0;
@@ -47,14 +47,4 @@
 
 .chat__add-message-form {
     max-width: 480px;
-}
-
-@media (min-height: 650px) {
-    .chat {
-        height: 80vh;
-    }
-
-    .chat__messages {
-        height: calc(80vh - 40px);
-    }
 }

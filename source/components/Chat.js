@@ -125,10 +125,16 @@ class Chat extends Component {
     render() {
         const { className, username } = this.props;
         const { messages, status } = this.state;
+        const chatStyle = {
+            height: (window.innerWidth < 525) ? window.innerHeight : '',
+        };
+        const messagesListStyle = {
+            height: (window.innerWidth < 525) ? window.innerHeight - 72 : '',
+        };
 
         return (
-            <div className={(className) ? className + ' chat' : 'chat'}>
-                <ul className="chat__messages" ref={el => this.chat = el}>
+            <div className={(className) ? className + ' chat' : 'chat'} style={chatStyle}>
+                <ul className="chat__messages" ref={el => this.chat = el} style={messagesListStyle}>
                     {messages.length === 0 ?
                         'no message' :
                         messages.map(item =>
