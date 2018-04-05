@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
     entry: './source/index.js',
@@ -7,6 +8,11 @@ module.exports = {
         filename: 'bundle.js',
         publicPath: 'assets',
         sourceMapFilename: 'bundle.map',
+    },
+    resolve: {
+        alias: {
+            '~': path.resolve(__dirname, './source'),
+        }
     },
     devtool: '#source-map',
     module: {

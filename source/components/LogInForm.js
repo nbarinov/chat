@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
-import '../styles/ui/input.css';
-import '../styles/ui/button.css';
-import '../styles/log-in-form.css';
+import '~/styles/ui/input.css';
+import '~/styles/ui/button.css';
+import '~/styles/log-in-form.css';
 
 const LogInForm = ({ className, onLogIn = f => f }) => {
     let _username;

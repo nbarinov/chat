@@ -3,7 +3,7 @@ import { Component } from 'react';
 import LogInForm from './LogInForm';
 import Chat from './Chat';
 
-import '../styles/app.css';
+import '~/styles/app.css';
 
 class App extends Component {
     constructor(props) {

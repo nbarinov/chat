@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 
 import AddMessageForm from './AddMessageFrom';
 
-import { filterByName } from '../libs/utils';
+import { filterByName } from '~/libs/utils';
 
-import '../styles/chat.css';
+import '~/styles/chat.css';
 
 class Chat extends Component {
     constructor(props) {

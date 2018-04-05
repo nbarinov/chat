@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
-import '../styles/ui/input.css';
-import '../styles/ui/button.css';
-import '../styles/add-message-form.css';
+import '~/styles/ui/input.css';
+import '~/styles/ui/button.css';
+import '~/styles/add-message-form.css';
 
 const AddMessageForm = ({ className, onFocus = f => f, onBlur = f => f, onSend = f => f }) => {
     let _message;
