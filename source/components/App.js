@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import fetch from 'isomorphic-fetch';
 
 import LogInForm from './LogInForm';
 import Chat from './Chat';
@@ -11,17 +12,47 @@ class App extends Component {
 
         this.state = {
             auth: false,
-            username: null
+            username: null,
+            error: null
         };
 
         this.onLogIn = this.onLogIn.bind(this);
     }
 
-    onLogIn(username) {
-        this.setState({
-            auth: true,
-            username
-        });
+    onLogIn(data) {
+        fetch(`api/find/${encodeURIComponent(data)}`)
+            .then(response => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    let error = new Error(response.statusText);
+                    error.response = response;
+
+                    throw error;
+                }
+            })
+            .then(result => {
+                let auth = true;
+                let username = data;
+                let error = null;
+
+                if(result) {
+                    auth = false;
+                    username = null;
+                    error = 'The username already exists';
+                }
+
+                this.setState({
+                    auth,
+                    username,
+                    error
+                });
+            })
+            .catch(err => {
+                this.setState({
+                    error: `Bad response from server: ${err}`
+                });
+            });
     }
 
     render() {
@@ -29,7 +60,7 @@ class App extends Component {
             <div className="app">
                 {this.state.auth ?
                     <Chat className="app__chat" username={this.state.username} /> :
-                    <LogInForm className="app__log-in-form" onLogIn={this.onLogIn} />}
+                    <LogInForm className="app__log-in-form" onLogIn={this.onLogIn} error={this.state.error || ''} />}
             </div>
         );
     }

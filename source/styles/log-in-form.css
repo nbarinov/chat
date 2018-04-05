@@ -1,9 +1,27 @@
 .log-in-form {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     max-width: 360px;
+}
+
+.log-in-form__field {
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
 }
 
 .log-in-form__input {
     width: calc(95% - 50px);
+}
+
+.log-in-form__footer {
+    position: absolute;
+    bottom: -32px;
+}
+
+.log-in-form__error {
+    font-size: 12px;
+    font-weight: 300;
+    color: #e03131;
 }
