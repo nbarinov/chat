@@ -23,7 +23,13 @@ io.on('connection', socket => {
         username
     };
 
-    if(findUser(users, currentUser.id) === 0) {
+    if(findUser(users, currentUser.id) !== 0) {
+        console.log('User ID is already connected, kicking.');
+        socket.disconnect();
+    } else if(typeof findUserByName(users, currentUser.username) === 'object') {
+        console.log(`Username ${currentUser.username} already taken.`);
+        socket.disconnect();
+    } else {
         console.log(`User ${currentUser.username} connected`);
 
         sockets[currentUser.id] = socket;
@@ -33,13 +39,10 @@ io.on('connection', socket => {
         console.log('Total users: ' + users.length);
 
         console.log('Users: ');
-        for(var i = 0; i < users.length; i++) {
+        for (var i = 0; i < users.length; i++) {
             console.log(users[i].username);
         }
         console.log('\n');
-    } else {
-        console.log('User ID is already connected, kicking.');
-        socket.disconnect();
     }
 
     socket.on('disconnect', () => {
@@ -72,6 +75,14 @@ io.on('connection', socket => {
             io.emit('user is typing', usersTyping);
         }
     });
+});
+
+app.get('/api/users', (req, res) => {
+    res.json(users);
+});
+
+app.get('/api/find/:username', (req, res) => {
+    res.json(findUserByName(users, req.params.username) || null);
 });
 
 server.listen(port, () => {
